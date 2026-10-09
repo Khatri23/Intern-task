@@ -4,6 +4,11 @@ export default new EntitySchema({
     name: "Users",
     tableName: "users",
     columns: {
+        id: {
+            type: "varchar",
+            length: 255,
+            primary: true
+        },
         name: {
             type:"varchar",
             length: 255
@@ -11,9 +16,10 @@ export default new EntitySchema({
         email: {
             type:"varchar",
             length: 255,
-            primary: true,
+            unique: true
         },
-        password_hash : {
+        password : {
+            select: false,
             type:"varchar",
             length: 255
         },
@@ -21,5 +27,6 @@ export default new EntitySchema({
             type:"varchar",
             length: 255
         }
+        
     }
 });
