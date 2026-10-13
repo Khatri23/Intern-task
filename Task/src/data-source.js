@@ -2,7 +2,6 @@ import { DataSource } from "typeorm";
 import dotenv from "dotenv";
 import path from "path";
 import { fileURLToPath } from "url";
-
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 dotenv.config();
@@ -18,10 +17,6 @@ export const AppDataSource = new DataSource({
     synchronize: true,
     logging : false
 });
-
-// AppDataSource.initialize()
-// .then(()=>console.log("Connected to the database"))
-// .catch((error)=>console.log(error));
 
 //insert into category
 

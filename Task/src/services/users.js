@@ -3,26 +3,27 @@ import Users from "../Entity/Users.js";
 
 const userRepository = AppDataSource.getRepository(Users);
 
-export async function insert_user(name,email,password,id) {
+export async function insertUser(name,email,password,id,role) {
     const user_entry =userRepository.create({
         id,name,email,password,
-        role:"customer"
+        Role:{
+            id:role
+        }
     });
     await userRepository.save(user_entry);
 }
 
-export async function find_by_id(id) {
+export async function findById(id) {
     const user = userRepository.findOne({
         where:{
             id: id
-        }
+        },
     })
     return user;
 }
-
 //returns user
 // if email and password matched
-export async function find_by_email(email) {
+export async function findByEmail(email) {
     const user = await userRepository.findOne({
         where:{
             email: email
@@ -32,19 +33,15 @@ export async function find_by_email(email) {
             email: true,
             id: true,
             name: true
+        },
+        relations:{
+            Role: true
         }
     });
     return user;
 }
 
-export async function update_user(key,name,email) {
-    let user = await userRepository.findOne({
-        where:{
-            id: key
-        }
-    }); // seek for the user 
-    user.name = name || user.name;
-    user.email = email || user.email;
+export async function updateUser(key,user) {
     await userRepository.update({
         id: key
     },user);

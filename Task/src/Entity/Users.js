@@ -1,5 +1,4 @@
 import { EntitySchema } from "typeorm";
-
 export default new EntitySchema({
     name: "Users",
     tableName: "users",
@@ -22,11 +21,12 @@ export default new EntitySchema({
             select: false,
             type:"varchar",
             length: 255
-        },
-        role: {
-            type:"varchar",
-            length: 255
         }
-        
+    },
+    relations: {
+        Role:{
+            type:"many-to-one",
+            target:"roles"
+        }
     }
 });

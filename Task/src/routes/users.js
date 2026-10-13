@@ -5,15 +5,12 @@ import * as userctx from "../controller/users.js";
 const router = new koarouter({prefix:"/api"});
 const auth = koajwt({secret:process.env.JWT_SECRET, algorithms:["HS256"]});
 
-router.post("/auth/register",userctx.user_registration);
+router.post("/auth/register",userctx.userRegistration);
 
-router.post("/auth/login",userctx.user_login);
+router.post("/auth/login",userctx.userLogin);
 
-router.get("/users/me",auth,userctx.get_user);
+router.get("/users/me",auth,userctx.getUser);
 
-router.put("/users/me",auth,userctx.update_user);
-
-router.get("/users/all",userctx.view_all_users);
-
+router.put("/users/me",auth,userctx.updateUser);
 
 export default router;

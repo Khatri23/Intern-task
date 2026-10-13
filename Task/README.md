@@ -21,18 +21,6 @@ The following environment and tools should already be installed:
 * **PostgreSQL** — Relational database
 * **pg** — PostgreSQL driver for Node.js
 
-## Installation
-
-Initialize the project and install the required dependencies:
-
-```bash
-npm install koa
-npm install koa-router
-npm install dotenv
-npm install typeorm
-npm install pg
-```
-
 ## Project Structure
 
 ```text
@@ -44,13 +32,22 @@ project/
 │
 ├── Entity/
 │   ├── Products.js
+|   ├── users.js
 │   └── Categories.js
 │
+├── middleware/
+|    ├── error.js
+|
+├── services/
+|    ├──products.js
+|    └── users.js
+|
 ├── Controller/
 │   ├── get_product.js
-|   └── error.js
+|   └── users.js
 │
 └── routes/
+    ├── users.js
     └── product-get.js
 ```
 
@@ -156,6 +153,10 @@ The `routes` directory contains the API route declarations.
 
 The `product-get.js` file defines the following endpoints:
 
+## Middleware
+
+The `middleware` directory contains the error handler defined in error.js.
+
 ### Get all products
 
 ```http
@@ -200,7 +201,7 @@ Example response shape:
 {
     "status": status_code ,
     "message": "Product not found",
-    "details": []
+    "details": 
 }
 ```
 
