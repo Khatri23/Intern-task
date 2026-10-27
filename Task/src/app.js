@@ -1,8 +1,9 @@
 import koa from "koa";
 import bodyparser from "@koa/bodyparser";
 
-import Product_router from "./routes/product-get.js";
-import users_router from "./routes/users.js"
+import Product_router from "./routes/product.js";
+import users_router from "./routes/users.js";
+import categoryRouter from "./routes/category.js";
 import errorHandler from "./middleware/error.js";
 import { AppDataSource } from "./data-source.js";
 
@@ -13,6 +14,7 @@ app.use(bodyparser({
 }));
 app.use(errorHandler);
 app.use(Product_router.routes()).use(Product_router.allowedMethods());
+app.use(categoryRouter.routes()).use(categoryRouter.allowedMethods());
 app.use(users_router.routes()).use(users_router.allowedMethods());
 
 AppDataSource.initialize()

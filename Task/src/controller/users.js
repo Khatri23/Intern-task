@@ -22,7 +22,7 @@ export async function userLogin(ctx) {
     if (!user || !bcrypt.compareSync(password,user.password)){
         ctx.throw(401,"Email or password is wrong");
     }
-    const token = jwt.sign({jit:user.id,name:user.name,email:user.email,role: user.Role.role},process.env.JWT_SECRET,{algorithm:"HS256",expiresIn:6000});
+    const token = jwt.sign({jit:user.id,name:user.name,email:user.email,role: user.Role},process.env.JWT_SECRET,{algorithm:"HS256",expiresIn:6000});
     ctx.body = {
         message: "Login successfully",
         token
@@ -31,7 +31,10 @@ export async function userLogin(ctx) {
 
 export async function getUser(ctx) {
     const user =await user_interface.findById(ctx.state.user.jit);
-    ctx.body ={ name:user.name, email:user.email, jit:user.uuid,role:ctx.state.user.role};
+    ctx.body ={
+        message: "data fetched succesfully",
+        data: user
+    };
 }
 
 export async function updateUser(ctx) {
