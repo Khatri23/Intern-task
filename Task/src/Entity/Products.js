@@ -29,7 +29,8 @@ export default new EntitySchema({
     relations:{
         Category: {
             type:"many-to-one",
-            target : "categories"
+            target : "categories",
+            onDelete: "SET NULL"
         }
     }
 });

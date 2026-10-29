@@ -15,23 +15,29 @@ export async function getProductById(ctx) {
     }
 }
 
-export async function createProduct(ctx) {
-    const {name,description,price,stock,imageURL,category} = ctx.request.body;
+export async function createProduct(ctx,next) {
+    const {name,description,price,stock,category} = ctx.request.body;
+    const imageURL = ctx.file ? `uploads/${ctx.file.filename}`: "null";
     await productInterface.createProduct(name,description,price,stock,imageURL,category);
     ctx.status =201;
     ctx.body = "Product successfully created";
+    await next();
 }
 
 export async function updateProduct(ctx) {
     const id = ctx.params.id;
-    const{price,stock,imageURL} = ctx.request.body;
+    const{price,stock,category} = ctx.request.body;
+    console.log(category);
+    const imageURL = ctx.file ? `uploads/${ctx.file.filename}`: "null";
     let product = await productInterface.fetchProductById(id);
     if(!product) {
         ctx.throw(404,"Not found");
     }
+    if(ctx.file && product.imageURL!= "null") await fs.unlink(product.imageURL).catch(()=>{});
     product.price = price || product.price;
     product.stock = stock || product.stock;
     product.imageURL = imageURL || product.imageURL;
+    product.Category = category || product.Category;
     await productInterface.updateProduct(product);
     ctx.status =200;
     ctx.body={

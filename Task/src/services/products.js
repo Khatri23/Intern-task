@@ -27,7 +27,8 @@ export async function fetchProductById(id) {
 
 export async function createProduct(name,description,price,stock,imageURL,category) {
     const product = productrepo.create({
-        name,description,price,stock,imageURL,
+        name,description,price,stock,
+        imageURL: imageURL,
         Category: {
             id: category
         }

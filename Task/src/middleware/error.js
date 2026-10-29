@@ -1,4 +1,5 @@
 // Centralized error handler
+import fs from "fs/promises";
 export default async function errorHandler(ctx, next) {
     try {
         await next();
@@ -10,6 +11,9 @@ export default async function errorHandler(ctx, next) {
                 details: err.errors
             };
             return;
+        }
+        if(ctx.file) {
+            await fs.unlink(ctx.file.path).catch(()=>{});
         }
         ctx.status = err.status || err.statusCode || 500;
         const expose = ctx.status < 500;

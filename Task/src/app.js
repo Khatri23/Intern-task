@@ -1,6 +1,6 @@
 import koa from "koa";
 import bodyparser from "@koa/bodyparser";
-
+import serve from "koa-static";
 import Product_router from "./routes/product.js";
 import users_router from "./routes/users.js";
 import categoryRouter from "./routes/category.js";
@@ -13,6 +13,7 @@ app.use(bodyparser({
     strict : true
 }));
 app.use(errorHandler);
+app.use(serve("uploads", { prefix: "/uploads" }));
 app.use(Product_router.routes()).use(Product_router.allowedMethods());
 app.use(categoryRouter.routes()).use(categoryRouter.allowedMethods());
 app.use(users_router.routes()).use(users_router.allowedMethods());
