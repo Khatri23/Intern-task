@@ -1,4 +1,5 @@
 import * as productInterface from "../services/products.js";
+import fs from "fs/promises";
 export async function displayProductList(ctx) {
     const data = await productInterface.fetchAllProducts();
     ctx.status = 200;
@@ -15,19 +16,17 @@ export async function getProductById(ctx) {
     }
 }
 
-export async function createProduct(ctx,next) {
+export async function createProduct(ctx) {
     const {name,description,price,stock,category} = ctx.request.body;
     const imageURL = ctx.file ? `uploads/${ctx.file.filename}`: "null";
     await productInterface.createProduct(name,description,price,stock,imageURL,category);
     ctx.status =201;
     ctx.body = "Product successfully created";
-    await next();
 }
 
 export async function updateProduct(ctx) {
     const id = ctx.params.id;
     const{price,stock,category} = ctx.request.body;
-    console.log(category);
     const imageURL = ctx.file ? `uploads/${ctx.file.filename}`: "null";
     let product = await productInterface.fetchProductById(id);
     if(!product) {
@@ -48,6 +47,8 @@ export async function updateProduct(ctx) {
 
 export async function deleteProduct(ctx) {
     const id = ctx.params.id;
+    const product = await productInterface.fetchProductById(id);
+    if(product.imageURL != "null") await fs.unlink(product.imageURL).catch(()=>{});
     await productInterface.deleteProduct(id);
     ctx.status = 204;
     ctx.body = `product with id ${id} deleted successfully`;
@@ -66,6 +67,7 @@ export async function queryProduct(ctx) {
     }
     const totalPages = Math.ceil(total/limit);
     const page = Math.min(totalPages,Number.parseInt(ctx.query.page,10) || 1);
+    console.log(page);
     const offset = (page-1)*limit;
     const product = await productInterface.searchProduct(search,category,minPrice,maxPrice,sort,limit,offset);
     ctx.body = {

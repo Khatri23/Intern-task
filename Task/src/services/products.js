@@ -46,7 +46,7 @@ export async function deleteProduct(id) {
     await productrepo.delete({id});
 }
 
-export async function searchProduct( search, category, minPrice, maxPrice, sort , limit, offset) {
+export async function searchProduct( search, category, minPrice, maxPrice, sort, limit, offset) {
     const qb = productrepo
         .createQueryBuilder("product")
         .leftJoinAndSelect("product.Category", "category");

@@ -1,11 +1,10 @@
 import koarouter from "@koa/router";
-import koajwt from "koa-jwt";
+import auth from "../middleware/auth.js";
 
 import * as categoryController from "../controller/category.js";
 import roleGuard from "../middleware/roleguard.js";
 
 const router = new koarouter({prefix:"/api/categories"});
-const auth = koajwt({secret:process.env.JWT_SECRET, algorithms:["HS256"]});
 
 router.get("/",categoryController.displayCategories);
 

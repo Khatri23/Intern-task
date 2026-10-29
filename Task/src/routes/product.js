@@ -1,21 +1,11 @@
 import koarouter from "@koa/router";
-import koajwt from "koa-jwt";
-import multer from "@koa/multer";
+import upload from "../middleware/upload.js";
 
-
+import auth from "../middleware/auth.js";
 import roleGuard from "../middleware/roleguard.js";
 import  * as productController from "../controller/product.js";
 
 const router = new koarouter({prefix:"/api/products"});
-const auth = koajwt({secret:process.env.JWT_SECRET, algorithms:["HS256"]});
-const storage = multer.diskStorage({
-    destination: "uploads/",
-    filename: (req,file,cb) => cb(null,Date.now()+"-"+file.originalname),
-});
-const upload = multer({
-    storage: storage,
-    limits: {fileSize:5*1024*1024}
-})
 
 router.get("/all",productController.displayProductList);
 
