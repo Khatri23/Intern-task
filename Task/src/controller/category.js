@@ -8,9 +8,12 @@ export async function displayCategories(ctx) {
 
 export async function addCategories(ctx) {
     const {name} = ctx.request.body;
-    await categoryInterface.addCategories(name);
+    const category = await categoryInterface.addCategories(name);
     ctx.status = 201;
-    ctx.body = "Created successfully";
+    ctx.body = {
+        message: "Created successfully",
+        data: category
+    };
 }
 export async function removeCategory(ctx) {
     await categoryInterface.deleteCategory(ctx.params.id);

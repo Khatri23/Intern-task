@@ -34,6 +34,7 @@ export async function createProduct(name,description,price,stock,imageURL,catego
         }
     });
     await productrepo.save(product);
+    return product;
 }
 
 export async function updateProduct(product) {

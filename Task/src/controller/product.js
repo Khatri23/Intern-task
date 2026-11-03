@@ -19,9 +19,12 @@ export async function getProductById(ctx) {
 export async function createProduct(ctx) {
     const {name,description,price,stock,category} = ctx.request.body;
     const imageURL = ctx.file ? `uploads/${ctx.file.filename}`: "null";
-    await productInterface.createProduct(name,description,price,stock,imageURL,category);
+    const product = await productInterface.createProduct(name,description,price,stock,imageURL,category);
     ctx.status =201;
-    ctx.body = "Product successfully created";
+    ctx.body = {
+        message:"Product successfully created",
+        data: product
+    };
 }
 
 export async function updateProduct(ctx) {

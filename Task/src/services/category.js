@@ -11,6 +11,7 @@ export async function fetchAllCategories() {
 export async function addCategories(name) {
     const data =categoryrepo.create({name});
     await categoryrepo.save(data);
+    return data;
 }
 
 export async function deleteCategory(id) {
