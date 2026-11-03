@@ -1,5 +1,6 @@
 import * as productInterface from "../services/products.js";
 import fs from "fs/promises";
+import * as productSchema from "../validation/productSchema.js";
 export async function displayProductList(ctx) {
     const data = await productInterface.fetchAllProducts();
     ctx.status = 200;
@@ -17,7 +18,8 @@ export async function getProductById(ctx) {
 }
 
 export async function createProduct(ctx) {
-    const {name,description,price,stock,category} = ctx.request.body;
+    const result = await productSchema.productValidate.validate(ctx.request.body,{abortEarly: false});
+    const {name,description,price,stock,category} = result;
     const imageURL = ctx.file ? `uploads/${ctx.file.filename}`: "null";
     const product = await productInterface.createProduct(name,description,price,stock,imageURL,category);
     ctx.status =201;
@@ -28,8 +30,8 @@ export async function createProduct(ctx) {
 }
 
 export async function updateProduct(ctx) {
-    const id = ctx.params.id;
-    const{price,stock,category} = ctx.request.body;
+    const {id} = await productSchema.idValidate.validate({id: ctx.params.id},{abortEarly:false});
+    const{price,stock,category} = await productSchema.updateValidate.validate(ctx.request.body,{abortEarly:false});
     const imageURL = ctx.file ? `uploads/${ctx.file.filename}`: "null";
     let product = await productInterface.fetchProductById(id);
     if(!product) {
@@ -49,7 +51,7 @@ export async function updateProduct(ctx) {
 }
 
 export async function deleteProduct(ctx) {
-    const id = ctx.params.id;
+    const {id} = await productSchema.idValidate.validate({id: ctx.params.id},{abortEarly:false});
     const product = await productInterface.fetchProductById(id);
     if(product.imageURL != "null") await fs.unlink(product.imageURL).catch(()=>{});
     await productInterface.deleteProduct(id);

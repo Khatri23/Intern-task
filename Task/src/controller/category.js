@@ -1,4 +1,5 @@
 import * as categoryInterface from "../services/category.js";
+import * as categorySchema from "../validation/categorySchema.js";
 
 export async function displayCategories(ctx) {
     const data = await categoryInterface.fetchAllCategories();
@@ -7,7 +8,7 @@ export async function displayCategories(ctx) {
 }
 
 export async function addCategories(ctx) {
-    const {name} = ctx.request.body;
+    const {name} = await categorySchema.categoryValidate(ctx.request.body, {abortEarly: false});    
     const category = await categoryInterface.addCategories(name);
     ctx.status = 201;
     ctx.body = {
@@ -16,14 +17,15 @@ export async function addCategories(ctx) {
     };
 }
 export async function removeCategory(ctx) {
-    await categoryInterface.deleteCategory(ctx.params.id);
+    const {id} =await categorySchema.idValidate( ctx.params.id,{abortEarly:false});
+    await categoryInterface.deleteCategory(id);
     ctx.status = 203;
     ctx.body = "Deleted";
 }
 
 export async function updateCategory(ctx){
-    const id = ctx.params.id;
-    const {name} = ctx.request.body;
+    const {id} =await categorySchema.idValidate( ctx.params.id,{abortEarly:false});
+    const {name} = await categorySchema.categoryValidate(ctx.request.body, {abortEarly: false});    
     const data = await categoryInterface.updateCategory(id,name);
     if(!data){
         ctx.throw(404, "Category not found");

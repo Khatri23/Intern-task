@@ -16,7 +16,7 @@ export default new EntitySchema({
     },
     relations:{
         Users:{
-            type: "one-to-may",
+            type: "one-to-many",
             target: "users"
         }
     }
