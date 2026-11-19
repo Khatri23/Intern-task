@@ -18,11 +18,13 @@ export async function findById(id) {
         where:{
             id: id
         },
+        relations:{
+            Role:true
+        }
     })
     return user;
 }
-//returns user
-// if email and password matched
+//returns user if email matched
 export async function findByEmail(email) {
     const user = await userRepository.findOne({
         where:{

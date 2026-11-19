@@ -17,7 +17,7 @@ export default new EntitySchema({
     relations:{
         Products:{
             type: "one-to-many",
-            target: "products"
+            target: "products",
         }
     }
 });

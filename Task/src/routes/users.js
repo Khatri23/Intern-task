@@ -1,9 +1,8 @@
 import koarouter from "@koa/router";
-import koajwt from "koa-jwt";
+import auth from "../middleware/auth.js";
 
 import * as userctx from "../controller/users.js";
 const router = new koarouter({prefix:"/api"});
-const auth = koajwt({secret:process.env.JWT_SECRET, algorithms:["HS256"]});
 
 router.post("/auth/register",userctx.userRegistration);
 
