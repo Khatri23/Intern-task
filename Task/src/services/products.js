@@ -1,5 +1,5 @@
 import { AppDataSource } from "../data-source.js";
-import Products from "../Entity/Products.js";
+import Products from "../entity/Products.js";
 import { ILike } from "typeorm";
 
 const productrepo = AppDataSource.getRepository(Products);

@@ -8,7 +8,7 @@ export async function displayCategories(ctx) {
 }
 
 export async function addCategories(ctx) {
-    const {name} = await categorySchema.categoryValidate(ctx.request.body, {abortEarly: false});    
+    const {name} = await categorySchema.categoryValidate.validate(ctx.request.body);   
     const category = await categoryInterface.addCategories(name);
     ctx.status = 201;
     ctx.body = {
@@ -17,15 +17,14 @@ export async function addCategories(ctx) {
     };
 }
 export async function removeCategory(ctx) {
-    const {id} =await categorySchema.idValidate( ctx.params.id,{abortEarly:false});
+    const {id} =await categorySchema.idValidate.validate({id: ctx.params.id});
     await categoryInterface.deleteCategory(id);
-    ctx.status = 203;
-    ctx.body = "Deleted";
+    ctx.status = 204;
 }
 
 export async function updateCategory(ctx){
-    const {id} =await categorySchema.idValidate( ctx.params.id,{abortEarly:false});
-    const {name} = await categorySchema.categoryValidate(ctx.request.body, {abortEarly: false});    
+    const {id} =await categorySchema.idValidate.validate( {id:ctx.params.id});
+    const {name} = await categorySchema.categoryValidate.validate(ctx.request.body); 
     const data = await categoryInterface.updateCategory(id,name);
     if(!data){
         ctx.throw(404, "Category not found");

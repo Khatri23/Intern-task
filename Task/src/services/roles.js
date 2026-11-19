@@ -1,5 +1,5 @@
 import { AppDataSource } from "../data-source.js";
-import Role from "../Entity/Role.js";
+import Role from "../entity/Role.js";
 
 const roleRepository = AppDataSource.getRepository(Role);
 

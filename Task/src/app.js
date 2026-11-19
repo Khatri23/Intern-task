@@ -1,10 +1,13 @@
 import koa from "koa";
 import bodyparser from "@koa/bodyparser";
 import serve from "koa-static";
+
 import Product_router from "./routes/product.js";
 import users_router from "./routes/users.js";
 import categoryRouter from "./routes/category.js";
 import roleRouter from "./routes/role.js";
+import cartRouter from "./routes/Carts.js";
+import orderRouter from "./routes/orders.js";
 import errorHandler from "./middleware/error.js";
 import { AppDataSource } from "./data-source.js";
 
@@ -19,6 +22,8 @@ app.use(Product_router.routes()).use(Product_router.allowedMethods());
 app.use(categoryRouter.routes()).use(categoryRouter.allowedMethods());
 app.use(roleRouter.routes()).use(roleRouter.allowedMethods());
 app.use(users_router.routes()).use(users_router.allowedMethods());
+app.use(cartRouter.routes()).use(cartRouter.allowedMethods());
+app.use(orderRouter.routes()).use(orderRouter.allowedMethods());
 
 AppDataSource.initialize()
     .then(() => {
@@ -26,4 +31,3 @@ AppDataSource.initialize()
         app.listen(3000, () => console.log("Listening on port 3000"))
     })
     .catch((error) => console.log(error));
-

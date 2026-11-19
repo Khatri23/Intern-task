@@ -1,5 +1,5 @@
 import { AppDataSource } from "../data-source.js";
-import Categories from "../Entity/Categories.js";
+import Categories from "../entity/Categories.js";
 
 const categoryrepo = AppDataSource.getRepository(Categories);
 

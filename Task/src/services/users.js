@@ -1,5 +1,5 @@
 import { AppDataSource } from "../data-source.js";
-import Users from "../Entity/Users.js";
+import Users from "../entity/Users.js";
 
 const userRepository = AppDataSource.getRepository(Users);
 
